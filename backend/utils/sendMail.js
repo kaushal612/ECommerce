@@ -3,17 +3,17 @@ const nodeMailer = require("nodemailer");
 const sendEmail = async (options) => {
     try {
         const transporter = nodeMailer.createTransport({
-            host: process.env.SMPT_HOST,
-            port: process.env.SMPT_HOST,
-            service: process.env.SMPT_SERVICE,
+            host: process.env.SMTP_HOST,
+            port: process.env.SMTP_HOST,
+            service: process.env.SMTP_SERVICE,
             auth: {
-                user: "kaushal2k01@gmail.com",
-                pass: "6122001k",
+                user: process.env.SMTP_MAIL,
+                pass: process.env.SMTP_PASSWORD,
             },
         });
 
         const mailOptions = {
-            from: "kaushal2k01@gmail.com",
+            from: process.env.SMTP_MAIL,
             to: options.email,
             subject: options.subject,
             text: options.message,
@@ -23,7 +23,7 @@ const sendEmail = async (options) => {
     }
 
 
-catch (err) {
+    catch (err) {
         console.log(err);
     }
 
