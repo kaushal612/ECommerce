@@ -161,3 +161,164 @@ exports.resetPassword = catchAsyncErrors(
 
         sendToken(user, 200, res);
     });
+
+//get user details
+exports.getUserDetails = catchAsyncErrors(
+    async (req, res, next) => {
+
+        const user = await User.findById(req.user.id).select("-password");
+
+        res.status(200).json({
+            success: true,
+            user
+        });
+
+    }
+);
+
+//update user password
+exports.updateUserPassword = catchAsyncErrors(
+    async (req, res, next) => {
+
+        const user = await User.findById(req.user.id).select("+password");
+
+        if (!user) {
+            return next(new ErrorHandler("User not found", 404));
+        }
+
+        const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+
+
+        if (!isPasswordMatched) {
+            return next(new ErrorHandler("Old Password is Incorrect", 400));
+        }
+
+        if (req.body.newPassword != req.body.confirmPassword) {
+            return next(new ErrorHandler("Password and Confirm Password should be same", 400));
+        }
+
+        user.password = req.body.newPassword;
+
+        await user.save();
+
+        sendToken(user, 200, res);
+
+
+
+
+
+    }
+
+);
+
+//update user details
+exports.updateUserDetails = catchAsyncErrors(
+    async (req, res, next) => {
+
+
+        const newUserData = {
+            name: req.body.name,
+            email: req.body.email,
+        };
+
+        console.log(newUserData);
+
+        const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false,
+
+
+        });
+
+
+        res.status(200).json({
+            success: true,
+            user
+        });
+
+    });
+
+
+//get all users(Admin)
+exports.getAllUsers = catchAsyncErrors(
+    async (req, res, next) => {
+
+
+        const users = await User.find();
+
+
+        res.status(200).json({
+            success: true,
+            users
+        });
+
+
+
+    });
+
+        //get single user(Admin)
+exports.getSingleUser = catchAsyncErrors(
+
+    async (req, res, next) => {
+
+      const user = await User.findById(req.params.id);
+
+      if(!user){
+          return next(new ErrorHandler("User not found", 404));
+      }
+
+        res.status(200).json({
+            success: true,
+            user
+        });
+
+    });
+
+
+    //update user role(Admin)
+exports.updateUserRole = catchAsyncErrors(
+    async (req, res, next) => {
+
+
+        const newUserData = {
+            role: req.body.role,
+        };
+
+        const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false,
+
+
+        });
+
+
+        res.status(200).json({
+            success: true,
+            user
+        });
+
+    });
+
+    //Delete User (Admin)
+exports.deleteUser = catchAsyncErrors(
+    async (req, res, next) => {
+    
+
+        // we will remove cloudinary
+
+    const user = await User.findByIdAndDelete(req.params.id);
+
+    // console.log(user);
+    if(!user){
+        return next(new ErrorHandler("User not found", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "User Deleted Successfully"
+    });
+    
+    });
+
