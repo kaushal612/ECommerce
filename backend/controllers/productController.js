@@ -9,8 +9,8 @@ exports.createProduct = catchAsyncErrors(
     async (req, res, next) => {
 
 
-        req.body.user=req.user.id;
-        
+        req.body.user = req.user.id;
+
         const product = await Product.create(req.body);
 
         res.status(201).json({
@@ -115,6 +115,73 @@ exports.getProduct = catchAsyncErrors(
 
     }
 );
+
+
+//create new Review or Update the rewiew
+
+exports.createReview = catchAsyncErrors(
+    async (req, res, next) => {
+
+
+        const { rating, comment, productId } = req.body;
+
+
+        const review = {
+            user: req.user._id,
+            name: req.user.name,
+            rating: Number(rating),
+            comment: comment,
+        };
+
+        const product = await Product.findById(productId);
+
+        const isReviewd = product.reviews.find(rev => rev.user.toString() === req.user.id);
+
+        if (isReviewd) {
+
+            product.reviews.forEach(element => {
+                if (element.user.toString() === req.user.id) {
+                    element.rating = review.rating;
+                    element.comment = review.comment;
+
+                }
+            });
+
+            // res.status(200).json({
+            //     success: true,
+            //     message: 'review updated successfully'
+            // });
+
+
+        }
+        else {
+            product.reviews.push(review);
+        }
+
+
+        const totalReviews = product.reviews.length;
+
+        console.log(totalReviews);
+        let totalRating = 0;
+        product.reviews.forEach(element => {
+            totalRating += element.rating;
+        });
+
+        const averageRating = totalRating / totalReviews;
+
+        product.ratings = averageRating;
+        product.numofReviews = totalReviews;
+        await product.save();
+
+        res.status(200).json({
+            success: true,
+            message: 'review added successfully'
+        });
+
+
+
+
+    });
 
 
 
