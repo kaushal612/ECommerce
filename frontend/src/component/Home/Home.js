@@ -4,10 +4,12 @@ import "./Home.css";
 import Product from "../../component/Home/Product";
 // import ProductCard from "./ProductCard.js";
 import MetaData from "../layout/MetaData";
-// import { clearErrors, getProduct } from "../../actions/productAction";
-// import { useSelector, useDispatch } from "react-redux";
+import { clearErrors, getProducts } from "../../actions/productAction";
+import { useSelector, useDispatch } from "react-redux";
+import Loader from "../layout/Loader/Loader";
 // import Loader from "../layout/Loader/Loader";
-// import { useAlert } from "react-alert";
+import { useAlert } from "react-alert";
+
 
 
 const product = {
@@ -18,53 +20,71 @@ const product = {
 }
 
 const Home = () => {
-    //   const alert = useAlert();
+      const alert = useAlert();
 
 
+    const dispatch = useDispatch();
+    const { products, loading, error, productsCount } = useSelector(state => state.products);
 
+
+    useEffect(() => {
+
+        if(error){
+           return alert.error(error);
+           
+        }
+
+       
+
+        dispatch(getProducts());
+
+    }, [dispatch,error]);
 
     return (
 
 
         <Fragment>
 
-            <MetaData title="MYSHOP" />
-            <div className="banner">
-                <p>Welcome to Ecommerce</p>
-                <h1>FIND AMAZING PRODUCTS BELOW</h1>
 
-                <a href="#container">
-                    <button>
-                        Scroll
-                    </button>
-                </a>
-            </div>
+            {loading ? <Loader /> :
 
-            <h2 className="homeHeading">Featured Products</h2>
+                (<Fragment>
 
-            <div className="container" id="container">
-                { // {products &&
-                    //   products.map((product) => (
-                    //     <ProductCard key={product._id} product={product} />
-                    //   ))}
-                }
+                    <MetaData title="MYSHOP" />
+                    <div className="banner">
+                        <p>Welcome to Ecommerce</p>
+                        <h1>FIND AMAZING PRODUCTS BELOW</h1>
 
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
+                        <a href="#container">
+                            <button>
+                                Scroll
+                            </button>
+                        </a>
+                    </div>
+
+                    <h2 className="homeHeading">Featured Products</h2>
+
+                    <div className="container" id="container">
+                        { // {products &&
+                            //   products.map((product) => (
+                            //     <ProductCard key={product._id} product={product} />
+                            //   ))}
+                        }
+
+                        {
+                            products &&
+                            products.map((product) => (
+                                <Product key={product._id} product={product} />
+                            ))
+                        }
 
 
-            </div>
+                    </div>
+                </Fragment>)
+            }
+
+
+
         </Fragment>
 
 
