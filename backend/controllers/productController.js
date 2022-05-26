@@ -184,6 +184,89 @@ exports.createReview = catchAsyncErrors(
     });
 
 
+// get All reviews of a product
+exports.getAllReviews = catchAsyncErrors(
+    async (req, res, next) => {
+
+        const product = await Product.findById(req.query.productId);
+
+        if (!product) {
+            return next(new ErrorHandler("product not found", 404));
+        }
+
+        res.status(200).json({
+            success: true,
+            reviews: product.reviews
+        });
+
+
+    });
+
+
+//Delete review
+exports.deleteReview = catchAsyncErrors(
+    async (req, res, next) => {
+
+
+
+        const product = await Product.findById(req.query.productId);
+
+
+        if (!product) {
+            return next(new ErrorHandler("product not found", 404));
+
+        }
+
+        const review = product.reviews.filter(rev => rev._id.toString() !== req.query.reviewId.toString());
+
+        if (product.reviews.length === review.length) {
+            return next(new ErrorHandler("review not found", 404));
+        }
+
+
+        product.reviews = review;
+
+
+
+        const totalReviews = product.reviews.length;
+
+        console.log("before");
+
+        if (totalReviews === 0) {
+
+            product.ratings = 0;
+            product.numofReviews = 0;
+            await product.save();
+
+            return res.status(200).json({
+                success: true,
+                message: 'review deleted successfully'
+            });
+        }
+        console.log("after");
+        let totalRating = 0;
+        product.reviews.forEach(ele => {
+
+            totalRating += ele.rating;
+        }
+        )
+
+        product.ratings = totalRating / totalReviews;
+        product.numofReviews = totalReviews;
+
+        await product.save();
+
+        res.status(200).json({
+            success: true,
+            message: 'review deleted successfully'
+        });
+
+
+
+
+    });
+
+
 
 
 
