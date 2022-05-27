@@ -9,7 +9,7 @@ const Product = ({ product }) => {
 
     const optons = {
         edit: false,
-        color: "yellow",
+        color: "grey",
         activeColor: "tomato",
         size: window.innerWidth < 600 ? 20 : 25,
         value: product.ratings,
@@ -19,7 +19,7 @@ const Product = ({ product }) => {
 
     return (
 
-        <Link className="productCard" to={Product._id}>
+        <Link className="productCard" to={`/product/${product._id}`} >
             <img src={product.images[0].url} alt={product.name} />
 
             <p>{product.name}</p>
@@ -32,7 +32,7 @@ const Product = ({ product }) => {
             <span>{product.price}</span>
 
 
-        </Link>
+        </Link >
 
     )
 }

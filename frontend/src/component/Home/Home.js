@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 //== import { CgMouse } from "react-icons/all";
 import "./Home.css";
-import Product from "../../component/Home/Product";
+import Product from "./ProductCard";
 // import ProductCard from "./ProductCard.js";
 import MetaData from "../layout/MetaData";
 import { clearErrors, getProducts } from "../../actions/productAction";
@@ -30,7 +30,8 @@ const Home = () => {
     useEffect(() => {
 
         if(error){
-           return alert.error(error);
+        alert.error(error);
+        dispatch(clearErrors());
            
         }
 
@@ -38,7 +39,7 @@ const Home = () => {
 
         dispatch(getProducts());
 
-    }, [dispatch,error]);
+    }, [dispatch,error,alert]);
 
     return (
 
