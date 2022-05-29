@@ -12,12 +12,6 @@ import { useAlert } from "react-alert";
 
 
 
-const product = {
-    name: "Blue Tshirt",
-    images: [{ url: "https://media.istockphoto.com/photos/blue-blank-tshirt-front-and-back-picture-id1135510081?k=20&m=1135510081&s=612x612&w=0&h=ffsZfn74Bjw8f8IqXOVBuwCXiSHcvm-k-B_cjUF17l4=" }],
-    price: "3000",
-    _id: "kaushal"
-}
 
 const Home = () => {
       const alert = useAlert();
