@@ -13,6 +13,7 @@ import ProductDetails from './component/Product/ProductDetails.js';
 import Products from './component/Product/Products.js';
 
 import Search from './component/Product/Search.js';
+import LoginRegister from './component/User/LoginRegister';
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
 
       <Route exact path="/search" component={Search}  />
 
+      <Route exact path="/login" component={LoginRegister}  />
 
 
       

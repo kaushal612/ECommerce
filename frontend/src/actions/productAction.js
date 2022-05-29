@@ -9,7 +9,7 @@ import {
     CLEAR_ERRORS,
 } from '../constants/productConstants';
 
-export const getProducts = (keyword = "", currentPage = 1) => async (dispatch) => {
+export const getProducts = (keyword = "", currentPage = 1, price = [0, 50000], category, ratings = 0) => async (dispatch) => {
 
     try {
 
@@ -20,7 +20,11 @@ export const getProducts = (keyword = "", currentPage = 1) => async (dispatch) =
         });
 
 
-        const requestLink = `/api/v1/products?keyword=${keyword}&page=${currentPage}`;
+        let requestLink = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
+
+        if (category) {
+            requestLink += `&category=${category}`;
+        }
 
         const { data } = await axios.get(requestLink);
 

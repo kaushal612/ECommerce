@@ -4,15 +4,30 @@ const User = require("../models/userModel");
 const sendToken = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendMail");
 const crypto = require("crypto");
+const cloudinary = require("cloudinary");
 
 //Register User
 
 exports.registerUser = catchAsyncErrors(
     async (req, res, next) => {
 
-        console.log(req.body);
+        // console.log(req.body);
 
+        // console.log(req.body);
+        // const myCloud = cloudinary.v2.uploader.upload(req.body.avatar, {
+        //     folder: "ProfilePics",
+        //     width: 150,
+        //     crop: "scale"
+        // });
 
+        const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+            folder: "user-pic",
+            width: 150,
+            crop: "scale",
+          });
+
+        console.log(myCloud);
+        console.log(myCloud.secure_url);
         const { name, email, password } = req.body;
 
 
@@ -21,8 +36,8 @@ exports.registerUser = catchAsyncErrors(
             email,
             password,
             avatar: {
-                public_id: "dfvdfvd",
-                url: "dfvfdv"
+                public_id: myCloud.public_id,
+                url: myCloud.secure_url,
             }
         });
 
@@ -257,16 +272,16 @@ exports.getAllUsers = catchAsyncErrors(
 
     });
 
-        //get single user(Admin)
+//get single user(Admin)
 exports.getSingleUser = catchAsyncErrors(
 
     async (req, res, next) => {
 
-      const user = await User.findById(req.params.id);
+        const user = await User.findById(req.params.id);
 
-      if(!user){
-          return next(new ErrorHandler("User not found", 404));
-      }
+        if (!user) {
+            return next(new ErrorHandler("User not found", 404));
+        }
 
         res.status(200).json({
             success: true,
@@ -276,7 +291,7 @@ exports.getSingleUser = catchAsyncErrors(
     });
 
 
-    //update user role(Admin)
+//update user role(Admin)
 exports.updateUserRole = catchAsyncErrors(
     async (req, res, next) => {
 
@@ -301,24 +316,24 @@ exports.updateUserRole = catchAsyncErrors(
 
     });
 
-    //Delete User (Admin)
+//Delete User (Admin)
 exports.deleteUser = catchAsyncErrors(
     async (req, res, next) => {
-    
+
 
         // we will remove cloudinary
 
-    const user = await User.findByIdAndDelete(req.params.id);
+        const user = await User.findByIdAndDelete(req.params.id);
 
-    // console.log(user);
-    if(!user){
-        return next(new ErrorHandler("User not found", 404));
-    }
+        // console.log(user);
+        if (!user) {
+            return next(new ErrorHandler("User not found", 404));
+        }
 
-    res.status(200).json({
-        success: true,
-        message: "User Deleted Successfully"
-    });
-    
+        res.status(200).json({
+            success: true,
+            message: "User Deleted Successfully"
+        });
+
     });
 

@@ -26,25 +26,33 @@ exports.createProduct = catchAsyncErrors(
 exports.getAllproducts = catchAsyncErrors(async (req, res, next) => {
 
 
-    const productCount = await Product.countDocuments();
+
     const resultPerPage = 10;
 
+    const productCount = await Product.countDocuments();
 
-    const features = new ApiFeatures(Product.find(), req.query).search().filter().pagination(resultPerPage);
+    let features = new ApiFeatures(Product.find(), req.query).search().filter();
 
 
+    let products = await features.query;
+
+    const filteredProductsCount = products.length;
 
 
-    const products = await features.query;
+    features.pagination(resultPerPage);
 
-    
+
+    products = await features.query.clone();
+
+
 
     res.status(200).json({
         success: true,
         message: 'products fetched successfully',
         products,
         productCount,
-        resultPerPage
+        resultPerPage,
+        filteredProductsCount
     });
 });
 
