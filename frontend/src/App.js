@@ -17,14 +17,18 @@ import LoginRegister from './component/User/LoginRegister';
 import store from './store';
 import { loadUser } from './actions/userAction';
 import UserOptions from './component/layout/Header/UserOptions.js';
+import Profile from './component/User/Profile.js';
 import { useSelector, useDispatch } from 'react-redux';
+import ProtectedRoute from './component/Route/ProtectedRoute';
+
+
 function App() {
 
 
   const dispatch = useDispatch();
-  const {user, isAuthenticated} = useSelector(state => state.user);
+  const { user, isAuthenticated } = useSelector(state => state.user);
 
- 
+
 
   useEffect(() => {
     WebFont.load({
@@ -50,7 +54,7 @@ function App() {
       <Route exact path="/search" component={Search} />
 
       <Route exact path="/login" component={LoginRegister} />
-
+      <ProtectedRoute exact path="/account" component={Profile} />
 
 
       <Footer />
