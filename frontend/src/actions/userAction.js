@@ -132,6 +132,28 @@ export const updateProfile = (userData) => async (dispatch) => {
             payload: error.response.data.message,
         });
     }
+
+
+   
+
 }
 
+
+ // Update user Password
+export const updatePassword = (userData) => async (dispatch) => {
+    try {
+        dispatch({ type: UPDATE_PASSWORD_REQUEST });
+
+        const config = { headers: { "Content-Type": "multipart/form-data" } };
+
+        const { data } = await axios.put(`/api/v1/password/update`, userData, config);
+
+        dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: data.success });
+    } catch (error) {
+        dispatch({
+            type: UPDATE_PASSWORD_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+}
 
