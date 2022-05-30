@@ -22,7 +22,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import ProtectedRoute from './component/Route/ProtectedRoute';
 import UpdateProfile from './component/User/UpdateProfile.js';
 import UpdatePassword from './component/User/UpdatePassword.js';
-
+import ForgotPassword from './component/User/ForgotPassword.js';
+import ResetPassword from './component/User/ResetPassword.js';
 
 function App() {
 
@@ -51,15 +52,26 @@ function App() {
       <Route exact path="/" component={Home} />
       <Route exact path="/product/:id" component={ProductDetails} />
       <Route exact path="/products" component={Products} />
+
+
       <Route exact path="/products/:keyword" component={Products} />
 
       <Route exact path="/search" component={Search} />
 
       <Route exact path="/login" component={LoginRegister} />
+
+      <Route exact path="/password/forgot" component={ForgotPassword} />
+
+      <Route exact path="/password/reset/:token" component={ResetPassword} />
+
+
+
       <ProtectedRoute exact path="/account" component={Profile} />
 
       <ProtectedRoute exact path="/me/update" component={UpdateProfile} />
       <ProtectedRoute exact path="/password/update" component={UpdatePassword} />
+
+
 
 
 

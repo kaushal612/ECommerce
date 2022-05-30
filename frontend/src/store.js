@@ -3,7 +3,7 @@ import { legacy_createStore as createStore, combineReducers, applyMiddleware } f
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { productDetailsReducer, productReducer } from './reducers/productReducer';
-import { profileReducer, userReducer } from './reducers/userReducer';
+import { forgotPasswordReducer, profileReducer, userReducer } from './reducers/userReducer';
 
 const reducer = combineReducers({
 
@@ -12,6 +12,7 @@ const reducer = combineReducers({
     productDetails: productDetailsReducer,
     user: userReducer,
     profile: profileReducer,
+    forgotPassword: forgotPasswordReducer,
 
 });
 
