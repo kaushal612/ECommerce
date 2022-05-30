@@ -10,7 +10,7 @@ import ReviewCard from "./ReviewCard.js";
 import Loader from "../layout/Loader/Loader";
 import { useAlert } from "react-alert";
 import MetaData from "../layout/MetaData";
-
+import { addItemsToCart } from "../../actions/cartAction";
 
 import { Rating } from "@material-ui/lab";
 
@@ -37,45 +37,45 @@ const ProductDetails = ({ match }) => {
         precision: 0.5,
     };
 
-    // const [quantity, setQuantity] = useState(1);
-    // const [open, setOpen] = useState(false);
-    // const [rating, setRating] = useState(0);
-    // const [comment, setComment] = useState("");
+    const [quantity, setQuantity] = useState(1);
+    const [open, setOpen] = useState(false);
+    const [rating, setRating] = useState(0);
+    const [comment, setComment] = useState("");
 
-    // const increaseQuantity = () => {
-    //     if (product.Stock <= quantity) return;
+    const increaseQuantity = () => {
+        if (product.stock <= quantity) return;
 
-    //     const qty = quantity + 1;
-    //     setQuantity(qty);
-    // };
+        const qty = quantity + 1;
+        setQuantity(qty);
+    };
 
-    // const decreaseQuantity = () => {
-    //     if (1 >= quantity) return;
+    const decreaseQuantity = () => {
+        if (1 >= quantity) return;
 
-    //     const qty = quantity - 1;
-    //     setQuantity(qty);
-    // };
+        const qty = quantity - 1;
+        setQuantity(qty);
+    };
 
-    // const addToCartHandler = () => {
-    //     dispatch(addItemsToCart(match.params.id, quantity));
-    //     alert.success("Item Added To Cart");
-    // };
+    const addToCartHandler = () => {
+         dispatch(addItemsToCart(match.params.id, quantity));
+        alert.success("Item Added To Cart");
+    };
 
-    // const submitReviewToggle = () => {
-    //     open ? setOpen(false) : setOpen(true);
-    // };
+    const submitReviewToggle = () => {
+        open ? setOpen(false) : setOpen(true);
+    };
 
-    // const reviewSubmitHandler = () => {
-    //     const myForm = new FormData();
+    const reviewSubmitHandler = () => {
+        const myForm = new FormData();
 
-    //     myForm.set("rating", rating);
-    //     myForm.set("comment", comment);
-    //     myForm.set("productId", match.params.id);
+        myForm.set("rating", rating);
+        myForm.set("comment", comment);
+        myForm.set("productId", match.params.id);
 
-    //     dispatch(newReview(myForm));
+        // dispatch(newReview(myForm));
 
-    //     setOpen(false);
-    // };
+        setOpen(false);
+    };
 
     useEffect(() => {
         if (error) {
@@ -90,7 +90,7 @@ const ProductDetails = ({ match }) => {
 
         // if (success) {
         //     alert.success("Review Submitted Successfully");
-        //     dispatch({ type: NEW_REVIEW_RESET });
+        //     // dispatch({ type: NEW_REVIEW_RESET });
         // }
         dispatch(getProductDetails(match.params.id));
     }, [dispatch, match.params.id, error, alert]);
@@ -106,17 +106,17 @@ const ProductDetails = ({ match }) => {
                     <MetaData title={`${product.name} -- ECOMMERCE`} />
                     <div className="ProductDetails">
                         <div>
-                        <Carousel>
-                        {product.images &&
-                          product.images.map((item, i) => (
-                            <img
-                              className="CarouselImage"
-                              key={i}
-                              src={item.url}
-                              alt={`${i} Slide`}
-                            />
-                          ))}
-                      </Carousel>
+                            <Carousel>
+                                {product.images &&
+                                    product.images.map((item, i) => (
+                                        <img
+                                            className="CarouselImage"
+                                            key={i}
+                                            src={item.url}
+                                            alt={`${i} Slide`}
+                                        />
+                                    ))}
+                            </Carousel>
                         </div>
 
                         <div>
@@ -135,12 +135,13 @@ const ProductDetails = ({ match }) => {
                                 <h1>{`₹${product.price}`}</h1>
                                 <div className="detailsBlock-3-1">
                                     <div className="detailsBlock-3-1-1">
-                                        <button >-</button>
-                                        <input readOnly type="number" value={1}/>
-                                        <button >+</button>
+                                        <button onClick={decreaseQuantity}>-</button>
+                                        <input readOnly type="number" value={quantity} />
+                                        <button onClick={increaseQuantity}>+</button>
                                     </div>
                                     <button
                                         disabled={product.stock < 1 ? true : false}
+                                        onClick={addToCartHandler}
 
                                     >
                                         Add to Cart
