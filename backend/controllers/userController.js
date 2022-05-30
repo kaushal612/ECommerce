@@ -24,7 +24,7 @@ exports.registerUser = catchAsyncErrors(
             folder: "user-pic",
             width: 150,
             crop: "scale",
-          });
+        });
 
         console.log(myCloud);
         console.log(myCloud.secure_url);
@@ -231,12 +231,32 @@ exports.updateUserDetails = catchAsyncErrors(
     async (req, res, next) => {
 
 
+        console.log(req.body);
         const newUserData = {
             name: req.body.name,
             email: req.body.email,
         };
 
-        console.log(newUserData);
+        // console.log(newUserData);
+
+        if (req.body.avatar !== "") {
+            const user = await User.findById(req.user.id);
+
+            const imageid = user.avatar.public_id;
+
+            await cloudinary.v2.uploader.destroy(imageid);
+
+            const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+                folder: "user-pic",
+                width: 150,
+                crop: "scale",
+            });
+
+            newUserData.avatar = {
+                public_id: myCloud.public_id,
+                url: myCloud.secure_url,
+            }
+        }
 
         const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
             new: true,
