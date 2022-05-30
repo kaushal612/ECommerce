@@ -14,9 +14,17 @@ import Products from './component/Product/Products.js';
 
 import Search from './component/Product/Search.js';
 import LoginRegister from './component/User/LoginRegister';
-
-
+import store from './store';
+import { loadUser } from './actions/userAction';
+import UserOptions from './component/layout/Header/UserOptions.js';
+import { useSelector, useDispatch } from 'react-redux';
 function App() {
+
+
+  const dispatch = useDispatch();
+  const {user, isAuthenticated} = useSelector(state => state.user);
+
+ 
 
   useEffect(() => {
     WebFont.load({
@@ -24,23 +32,27 @@ function App() {
         families: ['Roboto:300,400,500,700', 'sans-serif']
       }
     });
-  }, [])
+
+
+    store.dispatch(loadUser());
+
+  }, [dispatch]);
 
   return (
     <Router>
       <Header />
+      {isAuthenticated && <UserOptions user={user} />}
+      <Route exact path="/" component={Home} />
+      <Route exact path="/product/:id" component={ProductDetails} />
+      <Route exact path="/products" component={Products} />
+      <Route exact path="/products/:keyword" component={Products} />
 
-      <Route exact path="/" component={Home}  />
-      <Route exact path="/product/:id" component={ProductDetails}  />
-      <Route exact path="/products" component={Products}  />
-      <Route exact path="/products/:keyword" component={Products}  />
+      <Route exact path="/search" component={Search} />
 
-      <Route exact path="/search" component={Search}  />
-
-      <Route exact path="/login" component={LoginRegister}  />
+      <Route exact path="/login" component={LoginRegister} />
 
 
-      
+
       <Footer />
     </Router>
 
