@@ -1,19 +1,17 @@
 import React from 'react';
 
 import { Link } from 'react-router-dom';
-import ReactStars from 'react-rating-stars-component';
+import { Rating } from '@material-ui/lab';
 
 
 
 const Product = ({ product }) => {
 
     const optons = {
-        edit: false,
-        color: "grey",
-        activeColor: "tomato",
-        size: window.innerWidth < 600 ? 20 : 25,
+        size: 'small',
         value: product.ratings,
-        isHalf: true,
+        readOnly: true,
+        precision: 0.5,
     };
 
 
@@ -25,7 +23,7 @@ const Product = ({ product }) => {
             <p>{product.name}</p>
 
             <div>
-                <ReactStars {...optons} />
+                <Rating {...optons} />
                 <span>({product.numofReviews} Reviews)</span>
             </div>
 
