@@ -99,7 +99,7 @@ exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
 
 exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
 
-
+    console.log(req.body);
     console.log(req.params.id);
     const order = await Order.findById(req.params.id);
 
@@ -112,17 +112,19 @@ exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler("order already delivered", 400));
     }
 
+    if (order.orderStatus === 'Processing') {
 
-    order.orderItems.forEach(async (item) => {
-
-
-        await updateStock(item.product, item.quantity);
+        order.orderItems.forEach(async (item) => {
 
 
-    });
+            await updateStock(item.product, item.quantity);
 
 
-    order.orderStatus = req.body.orderStatus;
+        });
+    }
+
+
+    order.orderStatus = req.body.status;
 
     if (order.orderStatus === 'Delivered') {
         order.deliveredAt = new Date();

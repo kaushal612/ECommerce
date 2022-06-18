@@ -39,6 +39,25 @@ import MyOrders from './component/Order/MyOrders.js';
 
 import OrderDetails from './component/Order/OrderDetails.js';
 
+import Dashboard from './component/Admin/Dashboard.js';
+
+import ProductList from './component/Admin/ProductList.js';
+import NewProduct from './component/Admin/NewProduct';
+
+import UpdateProduct from './component/Admin/UpdateProduct.js';
+
+import OrderList from './component/Admin/OrderList.js';
+
+import ProcessOrder from './component/Admin/ProcessOrder.js';
+
+import UpdateUser from './component/Admin/UpdateUser.js';
+
+import ProductReviews from './component/Admin/ProductReviews.js';
+
+import UserList from './component/Admin/UserList.js';
+
+
+
 function App() {
 
 
@@ -116,6 +135,34 @@ function App() {
       <ProtectedRoute exact path="/success" component={OrderSuccess} />
 
       <ProtectedRoute exact path="/orders" component={MyOrders} />
+
+
+
+      <ProtectedRoute isAdmin={true} exact path="/admin/dashboard" component={Dashboard} />
+
+      <ProtectedRoute isAdmin={true} exact path="/admin/products" component={ProductList} />
+
+      <ProtectedRoute isAdmin={true} exact path="/admin/product" component={NewProduct} />
+
+      <ProtectedRoute isAdmin={true} exact path="/admin/product/:id" component={UpdateProduct} />
+
+      <ProtectedRoute isAdmin={true} exact path="/admin/orders" component={OrderList} />
+
+      <ProtectedRoute isAdmin={true} exact path="/admin/order/:id" component={ProcessOrder} />
+
+      <ProtectedRoute isAdmin={true} exact path="/admin/users" component={UserList} />
+
+      <ProtectedRoute isAdmin={true} exact path="/admin/reviews" component={ProductReviews} />
+
+
+      <ProtectedRoute isAdmin={true} exact path="/admin/user/:id" component={UpdateUser} />
+
+
+
+
+
+
+
 
 
 
