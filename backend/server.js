@@ -1,7 +1,7 @@
 const { Z_ASCII } = require("zlib");
 const app = require("./app");
 
-const dotenv = require("dotenv");
+
 const connectDatabase = require("./config/database");
 const cloudinary = require("cloudinary");
 //Handling Uncaught Exception
@@ -14,8 +14,10 @@ process.on("uncaughtException", (err) => {
 
 
 //config
-dotenv.config({path:"backend/config/config.env"});
 
+if (process.env.NODE_ENV !== "PRODUCTION") {
+    require("dotenv").config({ path: "backend/config/config.env" });
+}
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -35,7 +37,7 @@ const server = app.listen(process.env.PORT, () => {
 process.on("unhandledRejection", (err) => {
     console.log(`Error: ${err.message}`);
     console.log("shutting down server");
-    
+
     server.close(() => {
         process.exit(1);
     }
