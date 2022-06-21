@@ -19,7 +19,7 @@ const ForgotPassword = () => {
 
     const forgotPasswordSubmit = (e) => {
         e.preventDefault();
-        console.log(email);
+        //console.log(email);
         dispatch(forgotPassword(email));
     };
 

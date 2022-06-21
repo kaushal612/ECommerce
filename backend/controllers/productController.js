@@ -12,7 +12,7 @@ const cloudinary = require('cloudinary');
 exports.createProduct = catchAsyncErrors(
     async (req, res, next) => {
 
-        console.log(req.body);
+        // //console.log(req.body);
 
         let images = [];
 
@@ -108,9 +108,9 @@ exports.updateProduct = catchAsyncErrors(
     async (req, res, next) => {
 
 
-        // console.log(req.params.id);
+        // //console.log(req.params.id);
 
-        console.log(req.body);
+        //console.log(req.body);
 
         let product = await Product.findById(req.params.id);
 
@@ -168,7 +168,7 @@ exports.updateProduct = catchAsyncErrors(
             }
         );
 
-        console.log("hello" + product);
+        //console.log("hello" + product);
 
         res.status(200).json({
             success: true,
@@ -272,7 +272,7 @@ exports.createReview = catchAsyncErrors(
 
         const totalReviews = product.reviews.length;
 
-        console.log(totalReviews);
+        //console.log(totalReviews);
         let totalRating = 0;
         product.reviews.forEach(element => {
             totalRating += element.rating;
@@ -319,7 +319,7 @@ exports.deleteReview = catchAsyncErrors(
     async (req, res, next) => {
 
 
-        console.log(req.query);
+        //console.log(req.query);
 
         const product = await Product.findById(req.query.productId);
 
@@ -342,7 +342,7 @@ exports.deleteReview = catchAsyncErrors(
 
         const totalReviews = product.reviews.length;
 
-        console.log("before");
+        //console.log("before");
 
         if (totalReviews === 0) {
 
@@ -355,7 +355,7 @@ exports.deleteReview = catchAsyncErrors(
                 message: 'review deleted successfully'
             });
         }
-        console.log("after");
+        //console.log("after");
         let totalRating = 0;
         product.reviews.forEach(ele => {
 

@@ -49,7 +49,7 @@ export const getProducts = (keyword = "", currentPage = 1, price = [0, 50000], c
 
         const { data } = await axios.get(requestLink);
 
-        console.log(data);
+        //console.log(data);
         dispatch({
             type: ALL_PRODUCT_SUCCESS,
             payload: data,
@@ -103,13 +103,13 @@ export const getProductDetails = (productId) => async (dispatch) => {
 
         });
 
-        console.log(productId);
+        //console.log(productId);
 
         const { data } = await axios.get(`/api/v1/product/${productId}`);
 
 
 
-        console.log(data);
+        //console.log(data);
         dispatch({
             type: PRODUCT_DETAILS_SUCCESS,
             payload: data
