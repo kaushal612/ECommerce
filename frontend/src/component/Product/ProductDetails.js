@@ -28,7 +28,7 @@ import { NEW_REVIEW_RESET } from "../../constants/productConstants";
 const ProductDetails = ({ match }) => {
 
 
-    console.log(match.params.id);
+    //console.log(match.params.id);
     const dispatch = useDispatch();
     const alert = useAlert();
 
@@ -72,7 +72,7 @@ const ProductDetails = ({ match }) => {
     };
 
     const submitReviewToggle = () => {
-        console.log(open);
+        //console.log(open);
         setOpen(!open);
         // open ? setOpen(false) : setOpen(true);
     };

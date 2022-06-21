@@ -106,11 +106,11 @@ export const logout = () => async (dispatch) => {
     try {
 
         await axios.get("/api/v1/logout");
-        console.log("logout");
+        //console.log("logout");
         dispatch({ type: LOGOUT_SUCCESS });
     } catch (error) {
 
-        console.log(error);
+        //console.log(error);
         dispatch({ type: LOGOUT_FAIL, payload: error.response.data.message });
     }
 }
@@ -145,7 +145,7 @@ export const forgotPassword = (email) => async (dispatch) => {
 
         const config = { headers: { "Content-Type": "application/json" } };
 
-        console.log(email);
+        //console.log(email);
 
         const { data } = await axios.post(
             `/api/v1/password/forgot`,

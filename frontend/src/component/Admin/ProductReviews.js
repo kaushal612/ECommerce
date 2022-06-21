@@ -32,7 +32,7 @@ const ProductReviews = ({ history }) => {
   const [productId, setProductId] = useState("");
 
   const deleteReviewHandler = (reviewId) => {
-    console.log(reviewId);
+    //console.log(reviewId);
     dispatch(deleteReviews(reviewId, productId));
   };
 

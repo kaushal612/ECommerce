@@ -11,9 +11,9 @@ const cloudinary = require("cloudinary");
 exports.registerUser = catchAsyncErrors(
     async (req, res, next) => {
 
-        // console.log(req.body);
+        // //console.log(req.body);
 
-        // console.log(req.body);
+        // //console.log(req.body);
         // const myCloud = cloudinary.v2.uploader.upload(req.body.avatar, {
         //     folder: "ProfilePics",
         //     width: 150,
@@ -26,8 +26,8 @@ exports.registerUser = catchAsyncErrors(
             crop: "scale",
         });
 
-        console.log(myCloud);
-        console.log(myCloud.secure_url);
+        //console.log(myCloud);
+        //console.log(myCloud.secure_url);
         const { name, email, password } = req.body;
 
 
@@ -77,7 +77,7 @@ exports.loginUser = catchAsyncErrors(
 exports.logout = catchAsyncErrors(
     async (req, res, next) => {
 
-        console.log(req.user);
+        //console.log(req.user);
 
         res.cookie("token", "none", {
             expires: new Date(Date.now()),
@@ -97,10 +97,10 @@ exports.logout = catchAsyncErrors(
 exports.forgotPassword = catchAsyncErrors(
     async (req, res, next) => {
 
-        console.log(req.body);
+        //console.log(req.body);
         const user = await User.findOne({ email: req.body.email });
 
-        console.log(user);
+        //console.log(user);
         if (!user) {
             return next(new ErrorHandler("User not found", 404));
         }
@@ -109,7 +109,7 @@ exports.forgotPassword = catchAsyncErrors(
 
         const resetToken = await user.getResetPasswordToken();
 
-        console.log(resetToken);
+        //console.log(resetToken);
 
 
         await user.save({ validateBeforeSave: false });
@@ -136,7 +136,7 @@ exports.forgotPassword = catchAsyncErrors(
 
             await user.save({ validateBeforeSave: false });
 
-            console.log(error);
+            //console.log(error);
             return next(new ErrorHandle(error.message, 500));
         }
 
@@ -231,13 +231,13 @@ exports.updateUserDetails = catchAsyncErrors(
     async (req, res, next) => {
 
 
-        console.log(req.body);
+        //console.log(req.body);
         const newUserData = {
             name: req.body.name,
             email: req.body.email,
         };
 
-        // console.log(newUserData);
+        // //console.log(newUserData);
 
         if (req.body.avatar !== "") {
             const user = await User.findById(req.user.id);
@@ -348,7 +348,7 @@ exports.deleteUser = catchAsyncErrors(
 
         const user = await User.findByIdAndDelete(req.params.id);
 
-        // console.log(user);
+        // //console.log(user);
         if (!user) {
             return next(new ErrorHandler("User not found", 404));
         }
